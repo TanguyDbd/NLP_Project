@@ -74,6 +74,34 @@ class Model:
         self.grid_search = GridSearchCV(self.pipeline, parameters, cv=5, n_jobs=-1)
         self.grid_search.fit(self.X_train, self.y_train)
 
+    def grid_search_kernel(self, param_grid):
+        # Preprocess X_train to handle NaN values
+        self.X_train = self.X_train.fillna('')  
+
+        # Update the parameter grid with the appropriate key for the kernel
+        param_grid = {'Model_Architecture__kernel': param_grid}
+
+        # Use GridSearchCV to find the best kernel
+        self.grid_search_kernel = GridSearchCV(self.pipeline, param_grid, cv=5, n_jobs=-1)
+        self.grid_search_kernel.fit(self.X_train, self.y_train)
+
+        # Display the best kernel
+        print("Best kernel: ", self.grid_search_kernel.best_params_['Model_Architecture__kernel'])
+
+    def grid_search_C(self, param_grid):
+        # Preprocess X_train to handle NaN values
+        self.X_train = self.X_train.fillna('')  
+
+        # Update the parameter grid with the appropriate key for the kernel
+        param_grid = {'Model_Architecture__C': param_grid}
+
+        # Use GridSearchCV to find the best kernel
+        self.grid_search_kernel = GridSearchCV(self.pipeline, param_grid, cv=5, n_jobs=-1)
+        self.grid_search_kernel.fit(self.X_train, self.y_train)
+
+        # Display the best kernel
+        print("Best C: ", self.grid_search_kernel.best_params_['Model_Architecture__C'])
+
     def predict(self):
         return self.pipeline.predict(self.X_test)
 
